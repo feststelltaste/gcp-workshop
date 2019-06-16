@@ -1,7 +1,7 @@
 module todo
 
 require (
-	cloud.google.com/go v0.40.0 // indirect
+	cloud.google.com/go v0.40.0
 	github.com/bmizerany/pat v0.0.0-20170815010413-6226ea591a40
 	github.com/google/uuid v1.1.0
 	github.com/lib/pq v1.0.0

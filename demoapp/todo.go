@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"encoding/json"
 	"flag"
@@ -11,11 +12,13 @@ import (
 	"net/url"
 	"strings"
 	"time"
-
+  "os"
 	"github.com/bmizerany/pat"
 	_ "github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/satori/go.uuid"
+
+	"cloud.google.com/go/pubsub"
 )
 
 type Todo struct {
@@ -186,6 +189,24 @@ func insert(w http.ResponseWriter, r *http.Request) {
 	checkErr(err)
 	jsonB, errMarshal := json.Marshal(todo)
 	checkErr(errMarshal)
+
+	projectID := os.Getenv("PROJECT_ID")
+	ctx := context.Background()
+	client, err := pubsub.NewClient(ctx, projectID)
+	if err != nil {
+		log.Fatalf("Failed to create client: %v", err)
+	}
+	topicName := "todo-topic"
+	topic := client.Topic(topicName)
+	result := topic.Publish(ctx, &pubsub.Message{
+				Data: []byte(jsonB),
+	})
+	id, err := result.Get(ctx)
+  if err != nil {
+    fmt.Printf("Fehler beim versend der Message: %v\n", err)
+  } else {
+    fmt.Printf("Published a message; msg ID: %v\n", id)
+  }
 
 	w.Header().Set("Location", "/")
 	w.WriteHeader(301)

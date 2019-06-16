@@ -5,7 +5,7 @@
 ### Cloud Shell  
   In dieser Demo erkunden wir die Google Cloud Shell, starten eine VM und deployen die Demo app
  * clonen Sie das Repo der todo App: `git clone https://github.com/innoq/apisummit2018-googlecloud-demoapp`
- * starten Sie die Cloud Shell und bauen Sie die Demo mit `go build`. 
+ * starten Sie die Cloud Shell und bauen Sie die Demo mit `go build`.
  * staten Sie die App mit `./todo`
  * Testen Sie den HTTP-Zugriff mit [Web Preview](https://cloud.google.com/shell/docs/using-web-preview)
 
@@ -16,7 +16,7 @@
   * starten Sie auf der VM die App mit `./todo -addr 0.0.0.0:80`
   * Konfigurieren sie die [Firewall](https://console.cloud.google.com/networking/firewalls) für Port 80
   * Testen Sie den HTTP-Zugriff
-  
+
 ### Kubernetes Engine  
   Wir erstellen ein Docker Image, und installieren dieses in Kubernetes
  * Starten Sie einen [Cluster](https://console.cloud.google.com/kubernetes)
@@ -24,7 +24,7 @@
   * [Deployment](https://cloud.google.com/kubernetes-engine/docs/concepts/deployment)
   * [Service](https://cloud.google.com/kubernetes-engine/docs/concepts/service)
   * und [Ingress](https://cloud.google.com/kubernetes-engine/docs/concepts/ingress) vertraut
- * mit `gcloud auth configure-docker` verschaffen Sie sich bzw. Docker Zugriff auf die [Container Registry ](https://console.cloud.google.com/gcr/images) 
+ * mit `gcloud auth configure-docker` verschaffen Sie sich bzw. Docker Zugriff auf die [Container Registry ](https://console.cloud.google.com/gcr/images)
  * bauen Sie das Docker Image mit `make docker-rrimage`
  * verschaffen Sie sich Zugriff auf ihren Cluster mit  
    ` gcloud container clusters get-credentials [CLUSTERNAME] --zone [ZONE] --project [PROJECT_ID]`
@@ -37,7 +37,7 @@
   Wir erstellen zwei Cloud Functions, eine für das automatische Erstellen von Thumbnails in Cloud Storage und eine HTTP Funktion zum umwandeln von Markdown in HTML
   * [Erstellen Sie einen Bucket in Cloud Storage](https://console.cloud.google.com/storage/create-bucket)
   * im Ordner cloudfunctions/imagemagic können Sie die Funktion mit  
-    `gcloud functions deploy resize_image --trigger-bucket=gs://$TEST_BUCKET/ --runtime python37` installieren 
+    `gcloud functions deploy resize_image --trigger-bucket=gs://$TEST_BUCKET/ --runtime python37` installieren
   * laden Sie ein beliebiges Bild hoch und testen Sie das Ergebnis im Cloud Storage Browser
 * Für die `markdown_to_html` Demo benötigen Sie das [pandoc binary](https://github.com/jgm/pandoc/releases/download/2.5/pandoc-2.5-linux.tar.gz)  
   `curl -Lo pandoc.tar.gz https://github.com/jgm/pandoc/releases/download/2.5/pandoc-2.5-linux.tar.gz`  
@@ -47,20 +47,25 @@
 * in der Ausgabe finden Sie nun die URL ihrer Funktion
 * Testen Sie die Konvertierung mit:  
   `curl -sF'doc=@test.md' [URL] `
-  
-### Cloud Build 
+
+### Cloud Build
   Wir bauen todo in Cloud Build und deployen in Kubernetes
- * Repository anlegen auf der Kommandozeile: `gcloud source repos create todo` 
+ * Repository anlegen auf der Kommandozeile: `gcloud source repos create todo`
  * fügen Sie das gcloud Repo als Remote hinzu: `git remote add gcloud <URL>` (Die Rek-Url können Sie mit `gcloud source repos list` ermitteln)
  * `git push gcloud`
- * Erstellen Sie einen [Build Trigger](https://console.cloud.google.com/cloud-build/triggers/add) für das erstellte Repostitory 
+ * Erstellen Sie einen [Build Trigger](https://console.cloud.google.com/cloud-build/triggers/add) für das erstellte Repostitory
  * für das Erstellen des Docker-Images genügt es wenn Sie in der Buildkonfiguration `Dockerfile` auswählen
  * Testen Sie anschließend die Buildkonfiguration `cloudbuild.yaml`, damit könnes Sie Build Steps festlegen und das erstellte Dockerimage in Kubernetes bereitstellen.
- 
 
-  
+### Pub Sub Nachrichten verschicken
+* Beim Anlegen eines neuen ToDos soll eine PubSub Nachricht verschickt werden
+* Anlegen des Topics auf der Kommandozeile: ...
+* Anlegen einer Subscription auf der Kommandozeile: `gcloud pubsub subscriptions create --topic todo-topic todo-sub`
+* Erstellen eines ToDos: `curl 127.0.0.1:8080 -dtodo="demo fertigstellen"``
+* Abfragen der Nachrichten: `gcloud pubsub subscriptions pull --auto-ack todo-sub`
 
-### todo build 
+
+### todo build
 
 ```
 go build
