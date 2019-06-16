@@ -190,22 +190,9 @@ func insert(w http.ResponseWriter, r *http.Request) {
 	jsonB, errMarshal := json.Marshal(todo)
 	checkErr(errMarshal)
 
-	projectID := os.Getenv("PROJECT_ID")
-	ctx := context.Background()
-	client, err := pubsub.NewClient(ctx, projectID)
-	if err != nil {
-		log.Fatalf("Failed to create client: %v", err)
-	}
-	topicName := "todo-topic"
-	topic := client.Topic(topicName)
-	result := topic.Publish(ctx, &pubsub.Message{
-				Data: []byte(jsonB),
-	})
-	id, err := result.Get(ctx)
-  if err != nil {
-    fmt.Printf("Fehler beim versend der Message: %v\n", err)
-  } else {
-    fmt.Printf("Published a message; msg ID: %v\n", id)
+	pubSub := os.Getenv("PUB_SUB")
+	if  pubSub == "1" {
+	  sendPubSub(jsonB)
   }
 
 	w.Header().Set("Location", "/")
@@ -238,6 +225,26 @@ func deleteByID(w http.ResponseWriter, r *http.Request) {
 	rowAffected, errRow := result.RowsAffected()
 	checkErr(errRow)
 	fmt.Fprintf(w, "{row_affected=%d}", rowAffected)
+}
+
+func sendPubSub (jsonB []byte) {
+	projectID := os.Getenv("PROJECT_ID")
+	ctx := context.Background()
+	client, err := pubsub.NewClient(ctx, projectID)
+	if err != nil {
+		log.Fatalf("Failed to create client: %v", err)
+	}
+	topicName := "todo-topic"
+	topic := client.Topic(topicName)
+	result := topic.Publish(ctx, &pubsub.Message{
+				Data: []byte(jsonB),
+	})
+	id, err := result.Get(ctx)
+  if err != nil {
+    fmt.Printf("Fehler beim versend der Message: %v\n", err)
+  } else {
+    fmt.Printf("Published a message; msg ID: %v\n", id)
+  }
 }
 
 func checkErr(err error) {

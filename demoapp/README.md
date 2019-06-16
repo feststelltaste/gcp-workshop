@@ -59,11 +59,12 @@
 
 ### Pub Sub Nachrichten verschicken
 * Beim Anlegen eines neuen ToDos soll eine PubSub Nachricht verschickt werden
-* Anlegen des Topics auf der Kommandozeile: ...
+* Anlegen des Topics auf der Kommandozeile: `gcloud pubsub topics create todo-topic`
 * Anlegen einer Subscription auf der Kommandozeile: `gcloud pubsub subscriptions create --topic todo-topic todo-sub`
 * Erstellen eines ToDos: `curl 127.0.0.1:8080 -dtodo="demo fertigstellen"``
 * Abfragen der Nachrichten: `gcloud pubsub subscriptions pull --auto-ack todo-sub`
 
+Die Anwendung benötigt zwei Umgebungsvariablen um pubsub Nachrichten zu verschicken: `PROJECT_ID=<project_id> PUB_SUB=0 ./todo` 
 
 ### todo build
 
