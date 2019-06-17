@@ -64,7 +64,7 @@
 * Erstellen eines ToDos: `curl 127.0.0.1:8080 -dtodo="demo fertigstellen"``
 * Abfragen der Nachrichten: `gcloud pubsub subscriptions pull --auto-ack todo-sub`
 
-Die Anwendung benötigt zwei Umgebungsvariablen um pubsub Nachrichten zu verschicken: `PROJECT_ID=<project_id> PUB_SUB=0 ./todo` 
+Die Anwendung benötigt zwei Umgebungsvariablen um pubsub Nachrichten zu verschicken: `PROJECT=<project_id> PUB_SUB=1 ./todo` 
 
 ### todo build
 

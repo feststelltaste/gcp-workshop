@@ -228,7 +228,7 @@ func deleteByID(w http.ResponseWriter, r *http.Request) {
 }
 
 func sendPubSub (jsonB []byte) {
-	projectID := os.Getenv("PROJECT_ID")
+	projectID := os.Getenv("PROJECT")
 	ctx := context.Background()
 	client, err := pubsub.NewClient(ctx, projectID)
 	if err != nil {
