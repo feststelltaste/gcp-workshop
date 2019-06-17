@@ -234,7 +234,7 @@ func sendPubSub (jsonB []byte) {
 	if err != nil {
 		log.Fatalf("Failed to create client: %v", err)
 	}
-	topicName := "todo-topic"
+	topicName := "todo"
 	topic := client.Topic(topicName)
 	result := topic.Publish(ctx, &pubsub.Message{
 				Data: []byte(jsonB),
