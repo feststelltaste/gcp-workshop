@@ -25,11 +25,11 @@
   * [Service](https://cloud.google.com/kubernetes-engine/docs/concepts/service)
   * und [Ingress](https://cloud.google.com/kubernetes-engine/docs/concepts/ingress) vertraut
  * mit `gcloud auth configure-docker` verschaffen Sie sich bzw. Docker Zugriff auf die [Container Registry ](https://console.cloud.google.com/gcr/images)
- * bauen Sie das Docker Image mit `make docker-rrimage`
+ * bauen Sie das Docker Image mit `make docker-image`
  * verschaffen Sie sich Zugriff auf ihren Cluster mit  
    ` gcloud container clusters get-credentials [CLUSTERNAME] --zone [ZONE] --project [PROJECT_ID]`
  * Das Ausrollen erfolgt mit  
-   `kubectl apply -f todo-kubernetes.yaml`
+   `kubectl apply -f kubernetes-todo.yaml`
  * Die IP Adresse des Loadbalancers können Sie mit `kubectl get ing` ermitteln.
  * Testen Sie den HTTP-Zugriff
 
