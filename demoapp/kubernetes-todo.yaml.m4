@@ -18,11 +18,16 @@ spec:
       - name: todo
         image: gcr.io/PROJECT_ID/todo
         command:
-          - ./todo 
-          - -addr 
+          - ./todo
+          - -addr
           - 0.0.0.0:8080
           #- -db
-          #- postgres://todo:todo1234@35.246.186.44/todo?sslmode=disable
+          #- postgres://postgres:todo1234@35.246.186.44/tododb?sslmode=disable
+        #env:
+          #- name: PUB_SUB
+          #  value: 1
+          #- name: PROJECT
+          #  value: PROJECT_ID
         ports:
         - containerPort: 8080
 ---
