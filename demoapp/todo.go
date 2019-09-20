@@ -182,7 +182,8 @@ func getByID(w http.ResponseWriter, r *http.Request) {
 func insert(w http.ResponseWriter, r *http.Request) {
 	var todo Todo
 	todo.Todo = r.FormValue("todo")
-	todo.ID = uuid.NewV4().String()
+	u, _ := uuid.NewV4()
+	todo.ID = u.String()
 	todo.CreatedAt = time.Now().UTC()
 
 	_, err := mainDB.Exec("INSERT INTO todos(id, todo, created_at) values($1, $2, $3)", todo.ID, todo.Todo, todo.CreatedAt)
